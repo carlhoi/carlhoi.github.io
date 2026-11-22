@@ -24,7 +24,10 @@
          font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
   main { max-width: var(--maxw); margin: 0 auto; padding: 0 16px 64px; }
   header.hero { text-align: center; padding: 56px 0 24px; }
-  h1 { font-size: clamp(28px, 4.6vw, 46px); line-height: 1.15; margin: 0 0 24px; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(24px, 2.6vw, 38px); line-height: 1.2; margin: 0 0 24px; letter-spacing: -0.01em;
+       width: min(1320px, calc(100vw - 32px)); position: relative; left: 50%; transform: translateX(-50%); }
+  h1 .line { white-space: nowrap; }
+  @media (max-width: 900px) { h1 .line { white-space: normal; } h1 br { display: none; } }
   h1 .name { color: var(--accent); }
   .subtitle { font-size: clamp(17px, 2.2vw, 22px); color: var(--fg); margin: 0 auto 14px; max-width: 900px; }
   .venue { color: var(--muted); font-size: 15px; margin: 0 0 22px; }
@@ -70,7 +73,8 @@
 <main>
 
 <header class="hero">
-  <h1><span class="name">CarlHOI</span>: Counterfactual Predictive Imagination for Generalizable Multi-Humanoid Object Interaction under Constrained Environments</h1>
+  <h1><span class="line"><span class="name">CarlHOI</span>: Counterfactual Predictive Imagination for Generalizable</span><br>
+    <span class="line">Multi-Humanoid Object Interaction under Constrained Environments</span></h1>
   <div class="buttons">
     <a class="btn disabled" href="#" aria-disabled="true">Paper (coming soon)</a>
     <a class="btn secondary" href="#video">Video</a>
