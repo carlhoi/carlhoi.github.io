@@ -41,6 +41,7 @@
   figure { margin: 18px 0 8px; }
   figure img, figure video { width: 100%; height: auto; display: block; border-radius: 10px; background: var(--card); }
   figure img.paper { background: #fff; padding: 10px; border: 1px solid var(--line); }
+  figure video { border: 1px solid var(--line); }
   figcaption { color: var(--muted); font-size: 15px; margin-top: 8px; }
   .abstract { text-align: justify; hyphens: auto; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
@@ -89,7 +90,7 @@
 <section id="video">
   <h2>Video</h2>
   <figure>
-    <video controls preload="metadata" playsinline poster="static/images/video_poster.jpg">
+    <video controls preload="metadata" playsinline poster="static/images/video_cover.jpg">
       <source src="static/videos/supplementary_video.mp4" type="video/mp4">
     </video>
     <figcaption>Supplementary video with narration (3:31). Same episodes under different planners, then generalization
