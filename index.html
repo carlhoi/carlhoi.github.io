@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CarlHOI</title>
+<meta name="description" content="CarlHOI: Counterfactual Predictive Imagination for Generalizable Multi-Humanoid Object Interaction under Constrained Environments.">
+<meta name="robots" content="noarchive">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1d2125; --muted: #5f6b76; --line: #e3e7eb; --card: #f6f8fa;
+    --accent: #0f4d92; --accent-soft: #e8f0fa; --good: #1f7a3f;
+    --maxw: 1080px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14171a; --fg: #e6e9ec; --muted: #9aa5af; --line: #2a3036; --card: #1b1f23;
+      --accent: #7fb0e8; --accent-soft: #1d2a38; --good: #6cc38a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  main { max-width: var(--maxw); margin: 0 auto; padding: 0 16px 64px; }
+  header.hero { text-align: center; padding: 56px 0 24px; }
+  h1 { font-size: clamp(28px, 4.6vw, 46px); line-height: 1.15; margin: 0 0 24px; letter-spacing: -0.01em; }
+  h1 .name { color: var(--accent); }
+  .subtitle { font-size: clamp(17px, 2.2vw, 22px); color: var(--fg); margin: 0 auto 14px; max-width: 900px; }
+  .venue { color: var(--muted); font-size: 15px; margin: 0 0 22px; }
+  .buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px;
+         background: var(--fg); color: var(--bg); text-decoration: none; font-weight: 600; font-size: 15px; }
+  .btn.secondary { background: transparent; color: var(--fg); border: 1.5px solid var(--line); }
+  .btn.disabled { opacity: .45; pointer-events: none; }
+  section { padding: 34px 0 6px; border-top: 1px solid var(--line); margin-top: 26px; }
+  h2 { font-size: 26px; margin: 0 0 14px; letter-spacing: -0.01em; }
+  h3 { font-size: 19px; margin: 26px 0 8px; }
+  p { margin: 0 0 14px; }
+  .lead { font-size: 18px; }
+  figure { margin: 18px 0 8px; }
+  figure img, figure video { width: 100%; height: auto; display: block; border-radius: 10px; background: var(--card); }
+  figure img.paper { background: #fff; padding: 10px; border: 1px solid var(--line); }
+  figcaption { color: var(--muted); font-size: 15px; margin-top: 8px; }
+  .abstract { text-align: justify; hyphens: auto; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid2 figure { margin: 6px 0; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 4px; }
+  .tab { border: 1.5px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 999px;
+         padding: 6px 14px; font: inherit; font-size: 15px; cursor: pointer; }
+  .tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .callout { background: var(--accent-soft); border-radius: 10px; padding: 14px 18px; margin: 14px 0; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .stat b { display: block; font-size: 24px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--muted); font-size: 14px; }
+  .table-wrap { overflow-x: auto; margin: 12px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 6px 10px; text-align: center; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { font-weight: 600; }
+  th.l, td.l { text-align: left; }
+  tr.ours td { font-weight: 700; color: var(--accent); }
+  tr.group td { border-top: 2px solid var(--line); }
+  .note { color: var(--muted); font-size: 14px; }
+  footer { color: var(--muted); font-size: 14px; text-align: center; padding: 30px 16px 40px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <h1><span class="name">CarlHOI</span>: Counterfactual Predictive Imagination for Generalizable Multi-Humanoid Object Interaction under Constrained Environments</h1>
+  <div class="buttons">
+    <a class="btn disabled" href="#" aria-disabled="true">Paper (coming soon)</a>
+    <a class="btn secondary" href="#video">Video</a>
+    <a class="btn secondary" href="#results">Results</a>
+  </div>
+</header>
+
+<figure>
+  <img class="paper" src="static/images/teaser.png" alt="Teaser: TeamHOI fails on an obstacle wall, a narrow passage and a multi-obstacle course, while CarlHOI succeeds; unseen objects (bed, sofa) and team sizes 2 to 10." loading="eager">
+  <figcaption>We present CarlHOI, a world model-based framework for multi-humanoid transport under challenges. We also
+  introduce an obstacle benchmark spanning obstacle walls, narrow passages, and multi-obstacle courses with varied
+  obstacle geometries and layouts, three objects, and nine team sizes. CarlHOI demonstrates superior transport
+  performance and generalizes to different policies, unseen tasks, objects, and team sizes in zero-shot. Trajectories
+  trace the table center, and blue crosses mark CarlHOI's temporary targets after pickup.</figcaption>
+</figure>
+
+<section id="video">
+  <h2>Video</h2>
+  <figure>
+    <video controls preload="metadata" playsinline poster="static/images/video_poster.jpg">
+      <source src="static/videos/supplementary_video.mp4" type="video/mp4">
+    </video>
+    <figcaption>Supplementary video with narration (3:31). Same episodes under different planners, then generalization
+    to unseen obstacle sizes, team sizes, objects and policies.</figcaption>
+  </figure>
+</section>
+
+<section id="abstract">
+  <h2>Abstract</h2>
+  <p class="abstract">Recent advances in physics-based humanoid control have enabled teams of varying sizes to coordinate
+  their movements and cooperatively transport shared objects. However, adapting learned cooperative behaviors to unseen
+  environmental constraints remains challenging, particularly when obstacles require coordinated detours and changes in
+  team configuration. To address this challenge, we propose CarlHOI, a counterfactual predictive imagination framework
+  built upon a counterfactual-anchored relational latent world model (CarlWM) for human-object interaction (HOI),
+  enabling multi-humanoid teams to adapt to unseen environmental constraints without retraining their underlying
+  cooperative control policies. CarlHOI explicitly represents the shared object, individual humanoids, and environmental
+  obstacles as interacting entities. Trained offline using counterfactual simulator rollouts, the model imagines
+  alternative collective futures under different shared waypoint commands, predicting how the coupled humanoid team and
+  object would respond. By evaluating these imagined outcomes through predicted progress, failure, and contact risks,
+  and long-horizon value estimates, CarlHOI selects adaptive guidance commands while preserving the pretrained
+  cooperative controller. We introduce a benchmark comprising three challenging obstacle-constrained transport tasks to
+  evaluate adaptation and generalization. Despite being trained exclusively with four humanoids, our world model
+  generalizes without retraining to teams of two to ten humanoids, unseen obstacle geometries and placements, unseen
+  objects, and novel combinations of environmental constraints. Extensive experiments demonstrate improved cooperative
+  transport success over evaluated baselines across diverse configurations. These results highlight the potential of
+  counterfactual predictive imagination to extend pretrained multi-humanoid cooperative skills beyond their original
+  training conditions.</p>
+</section>
+
+<section id="method">
+  <h2>Method</h2>
+  <p class="lead">CarlHOI never changes the transport policy's weights: it steers the team only through the policy's goal
+  input. Every 0.5&nbsp;s, CarlWM encodes the recent history of the object, each humanoid and each obstacle piece as
+  separate entity tokens, imagines how the team would respond to nine candidate shared waypoints over 1.5&nbsp;s, and
+  scores each imagined future by predicted progress, failure and contact risks, and a learned long-horizon value. The
+  best waypoint becomes a temporary target for the frozen policy.</p>
+  <figure>
+    <img class="paper" src="static/images/framework.png" alt="CarlHOI overview: relational state encoding, counterfactual predictive imagination over nine commands, and cooperative execution by the frozen transport policy." loading="lazy">
+    <figcaption>Overview of CarlHOI. CarlWM predicts how a humanoid team and its shared load will respond to alternative
+    waypoint commands from the same observed state. Each prediction is anchored to guidance toward the original goal. The
+    highlighted branch shows the waypoint selected for the frozen transport policy, which generates each humanoid's joint
+    actions until CarlWM replans.</figcaption>
+  </figure>
+</section>
+
+<section id="comparison">
+  <h2>Comparison with world-model planners</h2>
+  <p>Four planners steer the same frozen policy (TeamHOI-FT, four humanoids, the table) on the <em>same episode</em>,
+  from identical initial states: the policy alone, TD-MPC2, SeqWM, and CarlWM (ours). Crosses mark each planner's
+  current temporary target(s); the blue line traces the table.</p>
+  <div class="tabs" role="tablist" data-group="cmp">
+    <button class="tab" role="tab" aria-selected="true" data-src="cmp_wall">2.0&nbsp;m Obstacle Wall</button>
+    <button class="tab" role="tab" aria-selected="false" data-src="cmp_passage">2.0&nbsp;m Narrow Passage</button>
+    <button class="tab" role="tab" aria-selected="false" data-src="cmp_course">Multi-Obstacle Course</button>
+  </div>
+  <figure>
+    <video id="cmp" controls muted loop playsinline preload="metadata" poster="static/images/poster_cmp_wall.jpg">
+      <source src="static/videos/cmp_wall.mp4" type="video/mp4">
+    </video>
+    <figcaption>Success rates shown in each panel are averaged over team sizes 2&ndash;10 for that obstacle.</figcaption>
+  </figure>
+  <figure style="max-width: 860px; margin-left: auto; margin-right: auto;">
+    <img class="paper" src="static/images/composites.png" alt="The same episode of each task under the four planners, and CarlHOI with the bed and the sofa." loading="lazy">
+    <figcaption>Qualitative results across tasks with four humanoids. The first four rows compare the same
+    table-transport episodes. The last two rows show CarlHOI transporting the unseen bed and sofa. Earlier poses are
+    faded; blue lines trace the object center, and crosses mark temporary targets.</figcaption>
+  </figure>
+</section>
+
+<section id="generalization">
+  <h2>Generalization without retraining</h2>
+  <p>CarlWM is trained once, with four humanoids, one policy (TeamHOI-FT), the table, and a narrow range of obstacle
+  sizes. Every other team size, obstacle size, object and policy below is unseen.</p>
+  <div class="tabs" role="tablist" data-group="gen">
+    <button class="tab" role="tab" aria-selected="true" data-src="gen_wall300">Unseen obstacle size</button>
+    <button class="tab" role="tab" aria-selected="false" data-src="gen_teamsize">Unseen team sizes</button>
+    <button class="tab" role="tab" aria-selected="false" data-src="gen_objects">Unseen objects</button>
+    <button class="tab" role="tab" aria-selected="false" data-src="gen_policies">Unseen policies</button>
+  </div>
+  <figure>
+    <video id="gen" controls muted loop playsinline preload="metadata" poster="static/images/poster_gen_wall300.jpg">
+      <source src="static/videos/gen_wall300.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <div class="stats">
+    <div class="stat"><b>16.0 &rarr; 84.5%</b><span>unseen 3.0&nbsp;m wall, TeamHOI-FT</span></div>
+    <div class="stat"><b>2&ndash;10</b><span>humanoids, trained with 4 only</span></div>
+    <div class="stat"><b>43.6 &rarr; 64.1%</b><span>unseen bed, 3.0&nbsp;m wall</span></div>
+    <div class="stat"><b>45.5 &rarr; 81.4%</b><span>unseen CooHOI policy, 2.0&nbsp;m wall</span></div>
+  </div>
+  <p class="note">Success rates averaged over team sizes 2&ndash;10 for the given obstacle (policy alone &rarr; with CarlWM).</p>
+
+  <h3>Team reformation</h3>
+  <figure style="max-width: 640px; margin-left: auto; margin-right: auto;">
+    <img class="paper" src="static/images/reformation.png" alt="Team reformation at 2.0 m gates: front and rear groups of 2+2, 1+3 and 5+5 humanoids." loading="lazy">
+    <figcaption>Team reformation during successful CarlHOI crossings of 2.0&nbsp;m gates (matching the table's diameter).
+    Teams reorganize into front (blue) and rear (orange) groups: 2+2, 1+3, and 5+5.</figcaption>
+  </figure>
+  <figure style="max-width: 900px; margin-left: auto; margin-right: auto;">
+    <img class="paper" src="static/images/reformation_all_n.png" alt="Team reformation for team sizes 2 to 10 at the 2.0 m gate, one row per team size." loading="lazy">
+    <figcaption>Team reformation for <i>n</i> = 2, &hellip;, 10 (CarlWM steering TeamHOI-FT, table, 2.0&nbsp;m gate). One
+    row per team size; the row label gives the number of humanoids in front of and behind the table inside the gate.
+    Blue: ahead of the table center; orange: behind.</figcaption>
+  </figure>
+</section>
+
+<section id="results">
+  <h2>Results</h2>
+  <p>Success rate (%) carrying the table, averaged over team sizes 2&ndash;10 (equal weight per team size), with 256
+  paired episodes per obstacle and team size. W: Obstacle Wall (1.0&ndash;3.0&nbsp;m spans); P: Narrow Passage
+  (2.1 and 2.0&nbsp;m gates); M: Multi-Obstacle Course (two 13&nbsp;m layouts).</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th class="l">Policy</th><th class="l">Planner</th><th>W</th><th>P</th><th>M</th></tr></thead>
+      <tbody>
+        <tr class="group"><td class="l" rowspan="4">TeamHOI</td><td class="l">Policy alone</td><td>44.4</td><td>29.9</td><td>15.3</td></tr>
+        <tr><td class="l">TD-MPC2</td><td>27.3</td><td>5.9</td><td>1.5</td></tr>
+        <tr><td class="l">SeqWM</td><td>28.1</td><td>13.5</td><td>7.3</td></tr>
+        <tr class="ours"><td class="l">CarlWM (Ours)</td><td>80.3</td><td>33.6</td><td>27.8</td></tr>
+        <tr class="group"><td class="l" rowspan="4">TeamHOI-FT&dagger;</td><td class="l">Policy alone</td><td>50.6</td><td>44.6</td><td>22.0</td></tr>
+        <tr><td class="l">TD-MPC2</td><td>29.6</td><td>7.8</td><td>1.2</td></tr>
+        <tr><td class="l">SeqWM</td><td>30.9</td><td>19.9</td><td>9.5</td></tr>
+        <tr class="ours"><td class="l">CarlWM (Ours)</td><td>89.0</td><td>55.4</td><td>47.5</td></tr>
+        <tr class="group"><td class="l" rowspan="4">CooHOI</td><td class="l">Policy alone</td><td>42.8</td><td>12.7</td><td>5.8</td></tr>
+        <tr><td class="l">TD-MPC2</td><td>20.4</td><td>2.2</td><td>0.4</td></tr>
+        <tr><td class="l">SeqWM</td><td>19.8</td><td>5.0</td><td>3.3</td></tr>
+        <tr class="ours"><td class="l">CarlWM (Ours)</td><td>76.3</td><td>22.2</td><td>16.2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">&dagger; Planners are trained only with four humanoids and TeamHOI-FT; TeamHOI and CooHOI are unseen policies.</p>
+
+  <div class="grid2">
+    <figure>
+      <img class="paper" src="static/images/teamsize.png" alt="Success rate across team sizes for table, bed and sofa on the three tasks." loading="lazy">
+      <figcaption>Generalization to unseen objects across team sizes and tasks. Success rate of TeamHOI-FT alone and with
+      each world-model planner. Band: 95% bootstrap confidence interval.</figcaption>
+    </figure>
+    <figure>
+      <img class="paper" src="static/images/arrival.png" alt="Cumulative arrival rates over time for each task and object." loading="lazy">
+      <figcaption>Cumulative arrival rates across tasks and objects: the percentage of episodes reaching the target by
+      time <i>t</i>, averaged over team sizes 2&ndash;10.</figcaption>
+    </figure>
+  </div>
+  <figure style="max-width: 620px; margin-left: auto; margin-right: auto;">
+    <img class="paper" src="static/images/gain.png" alt="Change in success rate over the policy alone for each task, object and policy." loading="lazy">
+    <figcaption>Change in success rate over the policy alone (percentage points, averaged over team sizes 2&ndash;10).
+    Diamonds/squares: CarlHOI; &times;: best of TD-MPC2 and SeqWM on the same policy.</figcaption>
+  </figure>
+</section>
+
+</main>
+<footer>
+  Anonymous submission. Page template written from scratch; no analytics or tracking.
+</footer>
+
+<script>
+  // Tab buttons swap the clip shown in the video element of their group.
+  document.querySelectorAll('.tabs').forEach(function (bar) {
+    var video = document.getElementById(bar.dataset.group);
+    bar.querySelectorAll('.tab').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        bar.querySelectorAll('.tab').forEach(function (b) { b.setAttribute('aria-selected', 'false'); });
+        btn.setAttribute('aria-selected', 'true');
+        video.poster = 'static/images/poster_' + btn.dataset.src + '.jpg';
+        video.querySelector('source').src = 'static/videos/' + btn.dataset.src + '.mp4';
+        video.load();
+        video.play().catch(function () {});
+      });
+    });
+  });
+</script>
+</body>
+</html>
